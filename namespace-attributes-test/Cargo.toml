@@ -1,0 +1,9 @@
+[package]
+name = "namespace-attributes-test"
+version = "0.1.0"
+authors = ["James Waples <jamwaffles@gmail.com>"]
+
+[dependencies]
+syn = "0.14.9"
+quote = "0.6.8"
+namespace-attributes-macros = { path = "../namespace-attributes-macros" }
