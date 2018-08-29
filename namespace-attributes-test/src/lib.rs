@@ -24,10 +24,11 @@ struct NsEventC;
 #[ns_test(namespace = "test_ns")]
 #[serde(tag = "type")]
 enum Events {
-    EventA(EventA),
-    EventB(EventB),
+    EnumEventA(EventA),
+    EnumEventB(EventB),
     #[ns_test(namespace = "remote_ns")]
-    NsEventC(NsEventC),
+    #[serde(rename = "something")]
+    EnumNsEventC(NsEventC),
 }
 
 #[cfg(test)]
@@ -37,7 +38,7 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let evt = Events::EventA(EventA);
+        let evt = Events::EnumEventA(EventA);
 
         let json = to_string(&evt);
 
