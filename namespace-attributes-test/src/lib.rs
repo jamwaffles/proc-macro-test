@@ -1,6 +1,3 @@
-#![feature(use_extern_macros)]
-#![feature(custom_attribute)]
-
 extern crate serde;
 extern crate serde_json;
 #[macro_use]
@@ -8,8 +5,6 @@ extern crate serde_derive;
 extern crate namespace_attributes_internals;
 #[macro_use]
 extern crate namespace_attributes_macros;
-
-use namespace_attributes_internals::EventData;
 
 #[derive(Serialize)]
 struct EventA;
@@ -34,16 +29,16 @@ enum Events {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json::to_string;
+    use namespace_attributes_internals::EventData;
 
     #[test]
-    fn it_works() {
-        let evt = Events::EnumEventA(EventA);
+    fn it_gets_namespaced_event_names() {
+        let event_a = Events::EnumEventA(EventA);
+        let event_b = Events::EnumEventB(EventB);
+        let event_c = Events::EnumNsEventC(NsEventC);
 
-        let json = to_string(&evt);
-
-        println!("{:?}", json);
-
-        assert_eq!(2 + 2, 4);
+        assert_eq!(event_a.namespaced_type(), "test_ns.EnumEventA");
+        assert_eq!(event_b.namespaced_type(), "test_ns.EnumEventB");
+        assert_eq!(event_c.namespaced_type(), "remote_ns.EnumNsEventC");
     }
 }
