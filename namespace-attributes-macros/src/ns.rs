@@ -1,4 +1,5 @@
 use derive_enum::derive_enum;
+use derive_struct::derive_struct;
 use proc_macro2::TokenStream;
 use quote::__rt::TokenTree::Group;
 use std::string::ToString;
@@ -36,6 +37,7 @@ pub fn get_namespace_from_attributes(input: &Vec<Attribute>) -> Option<String> {
 pub fn expand_derive_namespace(parsed: &DeriveInput) -> TokenStream {
     match parsed.data {
         Data::Enum(ref body) => derive_enum(&parsed, &body),
-        _ => panic!("Namespace can only be derived on enums"),
+        Data::Struct(ref body) => derive_struct(&parsed, &body),
+        _ => panic!("Namespace can only be derived on enums and structs"),
     }
 }

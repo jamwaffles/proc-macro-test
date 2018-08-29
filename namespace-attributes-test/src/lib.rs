@@ -1,28 +1,29 @@
 extern crate serde;
 #[macro_use]
 extern crate serde_json;
-#[macro_use]
-extern crate serde_derive;
 extern crate namespace_attributes_internals;
 #[macro_use]
 extern crate namespace_attributes_macros;
 
-#[derive(Serialize)]
+#[derive(EventData)]
+#[ns_test(namespace = "test_ns")]
 struct EventA {
     thing: u32,
 }
 
-#[derive(Serialize)]
+#[derive(EventData)]
+#[ns_test(namespace = "test_ns")]
 struct EventB {
     thing: u32,
 }
 
-#[derive(Serialize)]
+#[derive(EventData)]
+#[ns_test(namespace = "test_ns")]
 struct NsEventC {
     thing: u32,
 }
 
-#[derive(Serialize, EventData)]
+#[derive(EventData)]
 #[ns_test(namespace = "test_ns")]
 // #[serde(tag = "type")]
 enum Events {

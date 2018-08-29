@@ -22,8 +22,8 @@ pub fn derive_enum(parsed: &DeriveInput, body: &DataEnum) -> TokenStream {
             (variant.ident.to_string(), variant_namespace)
         }).collect();
 
-    let enum_name = parsed.clone().ident.into_token_stream();
-    let enum_names = repeat(&enum_name);
+    let item_ident = parsed.clone().ident.into_token_stream();
+    let item_idents = repeat(&item_ident);
 
     let variant_names = variants
         .keys()
@@ -34,12 +34,10 @@ pub fn derive_enum(parsed: &DeriveInput, body: &DataEnum) -> TokenStream {
     });
 
     let out = quote!{
-        extern crate namespace_attributes_internals as _internals;
-
-        impl _internals::EventData for #enum_name {
+        impl namespace_attributes_internals::EventData for #item_ident {
             fn namespaced_type(&self) -> &'static str {
                 match self {
-                    #(#enum_names::#variant_names(_) => #namespaced_variants,)*
+                    #(#item_idents::#variant_names(_) => #namespaced_variants,)*
                 }
             }
         }
