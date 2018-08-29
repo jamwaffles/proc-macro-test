@@ -8,6 +8,7 @@ extern crate proc_macro2;
 use proc_macro::TokenStream;
 use syn::DeriveInput;
 
+mod derive_enum;
 mod ns;
 
 #[proc_macro_derive(EventData, attributes(ns_test))]
