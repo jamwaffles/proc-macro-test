@@ -6,10 +6,10 @@ extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 extern crate namespace_attributes_internals;
+#[macro_use]
 extern crate namespace_attributes_macros;
 
 use namespace_attributes_internals::EventData;
-use namespace_attributes_macros::ns_test;
 
 #[derive(Serialize)]
 struct EventA;
@@ -20,7 +20,7 @@ struct EventB;
 #[derive(Serialize)]
 struct NsEventC;
 
-#[derive(Serialize)]
+#[derive(Serialize, EventData)]
 #[ns_test(namespace = "test_ns")]
 #[serde(tag = "type")]
 enum Events {
