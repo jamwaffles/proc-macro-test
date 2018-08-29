@@ -11,26 +11,28 @@ fn get_namespace_from_attributes(input: &Vec<Attribute>) -> Option<String> {
     input
         .iter()
         .filter_map(|attr| {
-            let ident = attr
-                .path
+            // Look through all attribute annotations
+            attr.path
                 .segments
                 .iter()
-                .nth(0)
-                .expect("Ident")
-                .ident
-                .to_string();
-            if ident == "ns_test" {
-                if let Some(Group(g)) = attr.clone().tts.into_iter().next() {
-                    g.stream()
+                // Filter attributes we're interested in
+                .find(|segment| segment.ident.to_string() == "ns_test")
+                // Find attribute triples like `namespace = "something"`
+                .and_then(|_| {
+                    attr.clone().tts.into_iter().find(|tt| match tt {
+                        Group(_) => true,
+                        _ => false,
+                    })
+                }).and_then(|tt| match tt {
+                    // Get last token of `a = b` triplet
+                    Group(g) => g
+                        .stream()
                         .into_iter()
                         .nth(2)
-                        .map(|namespace| namespace.to_string().trim_matches('"').into())
-                } else {
-                    None
-                }
-            } else {
-                None
-            }
+                        // Convert to string, strip surrounding quotes
+                        .map(|namespace| namespace.to_string().trim_matches('"').into()),
+                    _ => None,
+                })
         }).next()
 }
 
