@@ -4,8 +4,10 @@ version = "0.1.0"
 authors = ["James Waples <jamwaffles@gmail.com>"]
 
 [dependencies]
-syn = "0.14.9"
+namespace-attributes-internals = { path = "../namespace-attributes-internals" }
+syn = { version = "0.14.9", features = [ "extra-traits" ] }
 quote = "0.6.8"
+proc-macro2 = "0.4.15"
 
 [lib]
 proc-macro = true

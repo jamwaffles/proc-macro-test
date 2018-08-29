@@ -1,2 +1,2 @@
 [workspace]
-members = [ "namespace-attributes-macros", "namespace-attributes-test" ]
+members = [ "namespace-attributes-macros", "namespace-attributes-test", "namespace-attributes-internals" ]

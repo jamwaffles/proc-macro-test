@@ -5,8 +5,10 @@ extern crate serde;
 extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
+extern crate namespace_attributes_internals;
 extern crate namespace_attributes_macros;
 
+use namespace_attributes_internals::EventData;
 use namespace_attributes_macros::ns_test;
 
 #[derive(Serialize)]
