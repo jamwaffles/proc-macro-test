@@ -44,12 +44,14 @@ pub fn derive_struct(parsed: &DeriveInput, body: &DataStruct) -> TokenStream {
                     pub event_namespace: Option<String>,
                 }
 
+                #[derive(Deserialize, Debug)]
                 struct Output #body;
 
                 impl From<Output> for #item_ident {
-                    fn from(out: Self) -> #item_ident {
+                    fn from(out: Output) -> #item_ident {
+                        // TODO: Struct fields here
                         #item_ident {
-                            thing: 100
+                            thing: 0
                         }
                     }
                 }
@@ -76,9 +78,9 @@ pub fn derive_struct(parsed: &DeriveInput, body: &DataStruct) -> TokenStream {
                             Err(de::Error::custom("Data does not match types"))
                         } else {
                             // println!("THING {:?}", v);
-                            let out = Output::deserialize(v);
+                            let out = Output::deserialize(v).unwrap();
 
-                            out.into()
+                            Ok(out.into())
                         }
                     },
                     _ => Err(de::Error::custom("Could not deserialize event"))
